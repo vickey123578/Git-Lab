@@ -23,8 +23,8 @@ uname -r
 echo
 
 
-echo "[4] Uptime"
-uptime -p
+echo "[4] CPU Usage"
+top -bn1 | grep "Cpu(s)"
 echo
 
 
