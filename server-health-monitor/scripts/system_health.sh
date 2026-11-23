@@ -8,6 +8,22 @@ source "$SCRIPT_DIR/cpu_check.sh"
 source "$SCRIPT_DIR/memory_check.sh"
 source "$SCRIPT_DIR/disk_check.sh"
 
+usage() {
+  echo "Usage: $0 [-c checks] [-h]"
+  echo " -c cpu,memory,disk (default: all)"
+  echo " -h show this help"
+}
+ 
+CHECKS="cpu,memory,disk"
+
+while getopts "c:h" opt; do
+  case $opt in
+    c) CHECKS="$OPTARG" ;;
+    h) usage; exit 0 ;;
+    *) usage; exit 3 ;;
+  esac
+done
+
 STATUS=0
 
 run_check() {
@@ -18,8 +34,11 @@ run_check() {
   fi
 }
 
-run_check check_cpu
-run_check check_memory
-run_check check_disk
+IFS=',' read -ra LIST <<< "$CHECKS"
+
+for name in "${LIST[@]}"; do
+  run_check "check_$name"
+done
 
 exit $STATUS
+
