@@ -8,6 +8,10 @@ source "$SCRIPT_DIR/cpu_check.sh"
 source "$SCRIPT_DIR/memory_check.sh"
 source "$SCRIPT_DIR/disk_check.sh"
 
+LOG_DIR_PATH="$BASE_DIR/$LOG_DIR"
+mkdir -p "$LOG_DIR_PATH"
+LOG_FILE="$LOG_DIR_PATH/health_$(date +%F).log"
+
 usage() {
   echo "Usage: $0 [-c checks] [-h]"
   echo " -c cpu,memory,disk (default: all)"
