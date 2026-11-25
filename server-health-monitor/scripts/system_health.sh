@@ -15,6 +15,8 @@ LOG_DIR_PATH="$BASE_DIR/$LOG_DIR"
 mkdir -p "$LOG_DIR_PATH"
 LOG_FILE="$LOG_DIR_PATH/health_$(date +%F).log"
 
+trap 'log_error "Interrupted"; exit 3' INT TERM
+
 usage() {
   echo "Usage: $0 [-c checks] [-h]"
   echo " -c cpu,memory,disk,network,service,security (default: all)"
@@ -52,5 +54,23 @@ for name in "${LIST[@]}"; do
   run_check "check_$name"
 done
 
+
+case $STATUS in
+  0) log_info "Overall status: HEALTHY" ;;
+  1) log_warn "Overall status: WARNING" ;;
+  2) log_error "Overall status: CRITICAL" ;;
+  *) log_error "Overall status: ERROR" ;;
+esac
+
 exit $STATUS
+
+
+
+
+
+
+
+
+
+
 
