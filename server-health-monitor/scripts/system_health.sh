@@ -7,6 +7,7 @@ source "$BASE_DIR/config/config.conf"
 source "$SCRIPT_DIR/cpu_check.sh"
 source "$SCRIPT_DIR/memory_check.sh"
 source "$SCRIPT_DIR/disk_check.sh"
+source "$SCRIPT_DIR/network_check.sh"
 
 LOG_DIR_PATH="$BASE_DIR/$LOG_DIR"
 mkdir -p "$LOG_DIR_PATH"
@@ -14,11 +15,11 @@ LOG_FILE="$LOG_DIR_PATH/health_$(date +%F).log"
 
 usage() {
   echo "Usage: $0 [-c checks] [-h]"
-  echo " -c cpu,memory,disk (default: all)"
+  echo " -c cpu,memory,disk,network (default: all)"
   echo " -h show this help"
 }
  
-CHECKS="cpu,memory,disk"
+CHECKS="cpu,memory,disk,network"
 
 while getopts "c:h" opt; do
   case $opt in
