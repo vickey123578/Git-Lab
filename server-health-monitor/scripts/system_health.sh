@@ -27,6 +27,11 @@ done
 STATUS=0
 
 run_check() {
+  if ! declare -F "$1" > /dev/null; then
+    log_error "Unkonwn check: ${1#check_}"
+    STATUS=3
+    return
+fi
   "$1"
   local rc=$?
   if (( rc > STATUS )); then
